@@ -1,38 +1,44 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
+// import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
-function Map() {
-  return <GoogleMap
-    defaultZoom={10}
-    defaultCenter={{ lat: 28.546190, lng: 77.556213 }}
-  />;
-}
 
-const WrappedMap = withScriptjs(withGoogleMap(Map))
+
+// const MyMapComponent = (props) => (
+//   <GoogleMap
+//     defaultZoom={10}
+//     defaultCenter={{ lat: 28.546190, lng: 77.556213 }}
+//   >
+//     {props.isMarkerShown && <Marker position={{ lat: 28.546190, lng: 77.556213 }} />}
+//   </GoogleMap>
+// )
+
+// const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        {/* <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p> */}
+        <Map
+          google={this.props.google}
+          zoom={10}
+          initialCenter={{ lat: 28.546190, lng: 77.556213 }}>
 
-        <WrappedMap 
-          GoogleMmapURL={'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places'}
-          loadingElement={<div style={{ height: "100%"}} />}
-          containerElement={<div style={{ height: "100%"}} />}
-          mapElement={<div style={{ height: "100%"}} />}
-        />
+
+          <Marker onClick={this.onMarkerClick}
+            name={'Current location'} />
+
+          <InfoWindow onClose={this.onInfoWindowClose}>
+          </InfoWindow>
+        </Map>
       </div>
-    );
+      );
+    }
   }
-}
-
-export default App;
+  
+  // export default App;
+  
+export default GoogleApiWrapper({
+          apiKey: ('AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo')
+      })(App)
